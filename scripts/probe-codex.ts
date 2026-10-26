@@ -24,7 +24,7 @@ try {
   console.log(
     "Codex discovered " +
       tools.length +
-      " FlowCanvas tools using the installed credential helper.",
+    " FlowCanvas tools using the installed configuration.",
   );
   console.log(
     "Real Codex MCP discovery passed without creating a chat or running an agent.",

@@ -6,7 +6,7 @@
 
 A Project contains named Concepts. Each Concept has saved main versions and editable draft tabs. Main diagrams are read-only snapshots; all diagram changes happen in drafts.
 
-A new Concept has no main version. Its first draft uses the prefix `New`. **Apply draft** creates main v1 and changes that draft's prefix to `v1`. The draft stays open; another application creates v2 while preserving v1. Only a manual browser action can apply a draft. Codex has no apply tool.
+A new Concept has no main version. Its first draft uses the prefix `New`. **Apply draft** creates main v1 and changes that draft's prefix to `v1`. The draft stays open; another application creates v2 while preserving v1. Only a manual browser action can apply a draft. Agents have no apply tool.
 
 Select an older main version before creating a draft to explore an alternative from that snapshot. Applying it creates the next main version without merging with the latest main. Other drafts keep their contents and prefixes.
 
@@ -24,7 +24,7 @@ The palette provides **Interface**, **Agent**, **Sub-agent**, **Process**, **Dec
 | Fetch | Small blue square above the right output | A data request and response, with arrowheads at both ends |
 | Sub-agent call | Bottom output to the called block | Delegation and return, with arrowheads at both ends |
 
-Sub-agent calls enter the called block's top input, including when dragged onto a side input. A block supports five outgoing calls. One centred bottom slot appears initially; using it reveals a pair, and filling all three reveals the final pair. Occupied slots cannot start another call; deleting a call frees its slot. Codex can add calls in a batch and let the backend allocate ports.
+Sub-agent calls enter the called block's top input, including when dragged onto a side input. A block supports five outgoing calls. One centred bottom slot appears initially; using it reveals a pair, and filling all three reveals the final pair. Occupied slots cannot start another call; deleting a call frees its slot. Agents can add calls in a batch and let the backend allocate ports.
 
 Double-click a connection label to edit it. Branches, loops, parallel connections, and disconnected blocks are supported. Labels describe relationships rather than executable conditions.
 
@@ -62,8 +62,8 @@ Undo and redo cover up to 100 actions per draft during the running service sessi
 
 ## Shared tabs and appearance
 
-The first browser tab supplies context to Codex. Additional tabs keep separate identities and do not automatically change it. Duplicating a tab creates a separate identity. Closing the shared tab ends sharing after disconnect detection; an already-open secondary tab needs **Share this tab with Codex**. Refreshing the shared tab resumes its identity.
+The first browser tab supplies context to connected agents. Additional tabs keep separate identities and do not automatically change it. Duplicating a tab creates a separate identity. Closing the shared tab ends sharing after disconnect detection; an already-open secondary tab needs **Share this tab with agents**. Refreshing the shared tab resumes its identity.
 
-Secondary tabs' selections are excluded from agent context. Saved Concepts and diagrams remain deliberately queryable by ID. See [Codex integration](codex.md#shared-context) for retrieval details.
+Secondary tabs' selections are excluded from agent context. Saved Concepts and diagrams remain deliberately queryable by ID. See [agent integration](agents.md#shared-context) for retrieval details.
 
 FlowCanvas starts in Forest dark mode. The header's sun/moon button switches between dark and light. The choice is remembered in the browser and shared across its open tabs. Blocks have type names and distinct colours; selection adds a sage outline while retaining the type colour.

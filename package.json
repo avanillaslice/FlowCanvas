@@ -13,10 +13,8 @@
     "backup": "tsx scripts/backup.ts",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "mcp:setup": "tsx scripts/setup-mcp.ts",
     "mcp:check": "tsx scripts/probe-mcp.ts",
-    "codex:check": "tsx scripts/probe-codex.ts",
-    "skill:install": "node scripts/install-skill.mjs"
+    "codex:check": "tsx scripts/probe-codex.ts"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.32.1",

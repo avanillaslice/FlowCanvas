@@ -11,7 +11,7 @@ FlowCanvas is a shared visual thinking surface for people and agents. It depicts
 
 Use the available FlowCanvas MCP tools directly. They may have a client-specific namespace; their operation names include `read_workspace`, `read_diagram`, `create_draft`, and `edit_draft`. A browser tab inventory, browser extension, and plugin search are not part of this connection.
 
-If the tools are missing or authentication fails, read [local-connection.md](references/local-connection.md). Diagnose that connection before asking for a Concept ID or tab URL. A running website and a healthy configured server do not prove that the current chat has loaded the tools. Do not silently substitute browser automation or database writes for the missing connection.
+If the tools are missing or authentication fails, read [local-connection.md](references/local-connection.md). Diagnose that connection before asking for a Concept ID or tab URL. A running website and a healthy configured server do not prove that the current chat has loaded the tools. Do not silently substitute browser automation or database writes for the missing connection. Connection setup and skill placement are manual and depend on the user's client; do not assume Codex or install anything as a diagnostic step.
 
 The shared tab's active Concept, main version and draft are the native context. "My draft", "the current flow", and similar requests refer to those selections. Never ask the user for an ID or search the catalog to resolve the active selection. Other tabs are private context and must not be enumerated.
 
@@ -62,6 +62,8 @@ For example, an authoring overview can show Request → Main → Compose respons
 After creating a diagram, call `arrange_draft`; it separates progression and delegated branches, but cannot rescue an overcrowded or mixed-purpose graph. Reread the saved diagram to check responsibilities, branches, reconvergence and call direction.
 
 Then use `inspect_diagram` with the same kind and, for a known alternative, its `diagramId`. The tool returns measured clipping/overlap issues and a PNG. Inspect the image for readable headings, short bodies, crossings, long detours, label placement, hierarchy and overall density. Shorten or split content first; resize a block when the content really belongs there. Rearrange only when needed. Repeat inspection after a visual correction.
+
+If the client or model cannot consume MCP images, request `includeImage: false` for measurements and state that appearance remains visually unverified. Structural editing remains available.
 
 Consume the PNG as image content. If orchestrating tool calls, forward image blocks through the available image helper rather than printing the complete response or its base64 data as text.
 

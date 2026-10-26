@@ -732,7 +732,7 @@ export default function App() {
               className={`share-badge ${session.shared ? "shared" : ""}`}
               title={
                 session.shared
-                  ? "This tab supplies the selected Concept and diagrams to Codex."
+                  ? "This tab supplies the selected Concept and diagrams to connected agents."
                   : "This tab is not shared. Click to make it the shared workspace."
               }
               onClick={() =>
@@ -745,8 +745,8 @@ export default function App() {
             >
               <span className="status-dot" />
               {session.shared
-                ? "Shared with Codex"
-                : "Share this tab with Codex"}
+                ? "Shared with agents"
+                : "Share this tab with agents"}
             </button>
             <button
               className="icon-button"
@@ -1226,7 +1226,7 @@ export default function App() {
               Arrange resets all manual routes. Both can be undone.
             </p>
             <p>
-              The shared tab tells Codex which Concept, main version, and draft
+              The shared tab tells connected agents which Concept, main version, and draft
               you’re discussing. Other browser tabs don’t change that context.
             </p>
             <div className="shortcut-list">

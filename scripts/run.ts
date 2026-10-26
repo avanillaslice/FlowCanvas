@@ -9,7 +9,6 @@ import {
   projectRoot,
   readInstance,
 } from "./connection.js";
-import { stopCodexSetupProcesses } from "./codex-rpc.js";
 
 const current = connection();
 const url = new URL(current.url);
@@ -28,7 +27,6 @@ const shutdown = async (code = 0) => {
   if (stopping) return;
   stopping = true;
   if (service) console.log("\nStopping FlowCanvas…");
-  stopCodexSetupProcesses();
   try {
     await service?.close();
     if (readInstance()?.pid === process.pid)
@@ -74,14 +72,12 @@ try {
   mkdirSync(join(projectRoot, ".local"), { recursive: true });
   writeFileSync(processFile, JSON.stringify(runtime));
   console.log(
-    `FlowCanvas: ${url.origin}\nLocal data: ${current.dataDir}\nKeep this terminal open. Press Ctrl+C to stop.`,
+    `FlowCanvas: ${url.origin}\nMCP endpoint: ${current.url}\nMCP credential file: ${current.tokenFile}\nLocal data: ${current.dataDir}\nKeep this terminal open. Press Ctrl+C to stop.`,
   );
   if (!(await acceptsCredential(current.url, current.token)))
     throw new Error("The service credential did not match its local file.");
   if (!process.argv.includes("--service-only")) {
-    await import("./setup-mcp.js");
     await import("./probe-mcp.js");
-    await import("./probe-codex.js");
   }
   console.log(
     `\nFlowCanvas is ready: ${url.origin}\nPress Ctrl+C in this terminal to shut it down.`,

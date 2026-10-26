@@ -11,7 +11,7 @@ npm run dev
 
 Vite serves the browser at [http://127.0.0.1:5173](http://127.0.0.1:5173) and proxies `/api` to the service on port 4317, or `FLOWCANVAS_PORT` when set. Stop any existing service first. Development uses your regular data directory unless `FLOWCANVAS_DATA_DIR` is set; use an override for a separate workspace.
 
-The UI updates through Vite. Restart `npm run dev` after server changes. This command does not configure Codex automatically; use the [connection helpers](codex.md#connection-checks) against the running service when needed. Keep one browser origin because tab identity is origin-specific.
+The UI updates through Vite. Restart `npm run dev` after server changes. Configure your agent manually using the [agent setup guide](agents.md), then use the connection checks against the running service when needed. Keep one browser origin because tab identity is origin-specific.
 
 ## Checks
 
@@ -29,7 +29,7 @@ npm run test:e2e
 
 Service tests use temporary databases; browser tests use their separate directory. Neither modifies the regular workspace. Browser scenarios cover version application, older-version alternatives, persistence, shared editing, connections, conflicts, tab isolation, and save recovery. Use current test output for counts.
 
-Connection diagnostics require a running service and local Codex installation and are separate from the automated suite.
+The generic MCP check requires a running service. The optional Codex discovery check additionally requires a configured local Codex installation. Neither check changes client settings.
 
 ## Architecture
 
@@ -38,7 +38,7 @@ One Node.js service serves the built UI, handles UI requests and server-sent eve
 ```mermaid
 flowchart LR
     Browser[Browser canvas] <-->|UI API and change events| Service[Local FlowCanvas service]
-    Codex[Codex agent] <-->|MCP tools| Service
+    Agent[Agent client] <-->|MCP tools| Service
     Service <--> DB[(SQLite database)]
 ```
 
@@ -56,7 +56,7 @@ Drafts have revision counters and accept atomic command batches. Writes validate
 | `src/server/` | SQLite storage, services, browser ownership, UI API, MCP adapter, and lifecycle |
 | `src/web/` | React workspace, canvas, editing controller, inspection, and themes |
 | `public/` | Static browser assets |
-| `scripts/` | Development, startup, shutdown, backups, skill installation, and connection helpers |
+| `scripts/` | Development, startup, shutdown, backups, credential headers, and connection checks |
 | `skills/flowcanvas/` | Companion skill and agent-facing references |
 | `tests/` | Service and integration tests, fixtures, and browser scenarios under `e2e/` |
 | `docs/` | User, integration, operation, and development guides |

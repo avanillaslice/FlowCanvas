@@ -1,89 +1,42 @@
-# Codex integration
+# Codex example
 
-[Back to README](../README.md)
+[Back to README](../README.md) · [General agent setup](agents.md)
 
-FlowCanvas exposes a local Streamable HTTP MCP endpoint at `http://127.0.0.1:4317/mcp`. The connection provides live tools; the companion skill provides guidance. Both use the same backend as the browser canvas.
+Codex connects to the same local MCP service as other clients. If FlowCanvas already works in Codex, keep your existing MCP entry, credential helper, and installed skill. Starting with `npm run up` or a personal launcher continues to serve the same endpoint and token; startup no longer registers or rewrites client configuration.
 
-## Install the companion skill
+## Manual MCP configuration
 
-From the repository root:
+Start FlowCanvas, then edit your user `~/.codex/config.toml` (or the configuration under `CODEX_HOME` when set). Add or update one `flowcanvas` entry. This Windows example uses placeholder paths; replace all three paths with your Node executable, checkout, and credential file:
 
-```powershell
-npm run skill:install
+```toml
+[mcp_servers.flowcanvas]
+url = "http://127.0.0.1:4317/mcp"
+http_headers_helper = '''"C:/Program Files/nodejs/node.exe" "C:/path/to/FlowCanvas/scripts/mcp-headers.mjs" "C:/path/to/FlowCanvas/.local/mcp-token"'''
 ```
 
-This copies `skills/flowcanvas` to `~/.codex/skills/flowcanvas`, or `$CODEX_HOME/skills/flowcanvas` when set. Restart Codex to discover it. Invoke `$flowcanvas` explicitly, or refer to FlowCanvas during a discussion for automatic skill selection.
+Use absolute paths. The helper reads the credential file and returns an Authorization header privately to Codex. It does not depend on `FLOWCANVAS_MCP_TOKEN`. Replace conflicting authorization settings if migrating an old entry, since configured bearer tokens can take precedence over the helper. Restart Codex after changing its configuration. See [official Codex MCP configuration](https://learn.chatgpt.com/docs/extend/mcp).
 
-The maintained source is [skills/flowcanvas/SKILL.md](../skills/flowcanvas/SKILL.md), with tool and connection references alongside it. Rerun the installer after updating that source. The skill alone cannot access live diagrams; MCP tools must also be connected.
+The helper's path and credential format are unchanged for existing installations. Directory or port overrides require matching edits to the configuration. FlowCanvas does not implement OAuth login.
 
-## Configure the connection
+## Manual skill placement
 
-```powershell
-npm run up
-```
+Copy the entire `skills/flowcanvas` folder into a skill location your Codex installation discovers. Current documentation lists `~/.agents/skills/flowcanvas` for a user-wide skill and `.agents/skills/flowcanvas` within a repository. See [official skill locations](https://learn.chatgpt.com/docs/build-skills).
 
-The launcher starts FlowCanvas, registers `flowcanvas` in your Codex user configuration, and verifies the connection. A local HTTP header helper reads the service's credential file using absolute paths. Setup does not print the credential or depend on `FLOWCANVAS_MCP_TOKEN` in the terminal environment.
+Existing FlowCanvas installations may already have a working copy under `~/.codex/skills/flowcanvas` or `CODEX_HOME/skills/flowcanvas`. Update that discovered copy in place rather than creating a duplicate. The repository includes optional `agents/openai.yaml` metadata for Codex. If the updated skill does not appear, restart Codex.
 
-Restart Codex after initial setup or connection changes. Ordinary launches reuse the configuration. Keep the service's terminal open and stop it with Ctrl+C.
-
-The helpers locate Codex on `PATH` or in its Windows desktop installation. For a custom installation, set `FLOWCANVAS_CODEX_PATH` to the full path of the native executable. No marketplace plugin or browser extension is required.
+Invoke `$flowcanvas` or ask Codex to use FlowCanvas during a discussion. Skill placement and MCP configuration are separate manual steps.
 
 ## Connection checks
 
-With the service running, these commands can be run independently:
+With FlowCanvas running:
 
 ```powershell
-npm run mcp:setup
 npm run mcp:check
 npm run codex:check
 ```
 
-- `mcp:setup` registers or updates the endpoint and credential helper.
-- `mcp:check` verifies an HTTP MCP handshake and a JSON-text tool call.
-- `codex:check` starts a Codex app-server process and checks discovery using the installed configuration, without creating a chat or running a model.
+The first checks the service through a generic MCP client. The second starts a Codex app-server process and verifies the installed configuration without creating a chat, running a model, or changing settings. It locates the native Codex executable on PATH or in the Windows desktop installation; use `FLOWCANVAS_CODEX_PATH` for a custom executable path.
 
-The launcher runs all three automatically. Passing checks confirms access in the check process; an existing chat may still need Codex to restart and reload its tools.
+If the checks pass but your chat lacks tools, reload Codex's connection. The **Shared with agents** indicator identifies the browser context supplied to Codex and any other connected clients; it does not indicate an agent is continuously watching.
 
-## Shared context
-
-Open the intended Concept in the shared tab, then ask:
-
-> Use FlowCanvas to read my current draft and help me sketch an alternative.
-
-No ID or browser URL is needed for the current selection.
-
-| Request | Tool call |
-| --- | --- |
-| Read the selected draft | `read_diagram` with `kind: "draft"` and no IDs |
-| Read the selected main | `read_diagram` with `kind: "main"` and no IDs |
-| Read Concept metadata and diagram references | `read_concept` with no ID |
-| Compare selected main and draft | `read_workspace` |
-
-Selection-based reads ask the shared browser to flush pending edits. If it cannot confirm its contents, the service reports a busy, changed, or disconnected workspace. Explicit diagram IDs address saved diagrams without flushing pending browser edits.
-
-Only the shared tab supplies selections. Other tabs do not automatically become shared, and their selections are not exposed. Saved diagrams remain queryable by ID; the header's Concept ID can be copied for a specific lookup. Workspace awareness refreshes through tool calls. UI changes do not automatically send content into a conversation.
-
-A selected Concept can have no diagrams yet. Codex can create its first draft with `create_draft` and `sourceVersionId: null`. Draft edits require a fresh revision and commit as an atomic batch. Codex cannot apply drafts or change shared-tab ownership.
-
-## Inspect rendered diagrams
-
-`inspect_diagram` accepts `kind: "draft"` or `"main"`. It reports the revision/version, clipped headings, scrolling notes, overlapping blocks or labels, and older sub-agent calls entering side ports. By default it also returns a PNG bounded to 1600 × 1200 pixels. Use `includeImage: false` for measurements only.
-
-`view: "shared_canvas"` means the displayed canvas was inspected. `view: "saved_preview"` means a hidden or explicitly addressed saved diagram was rendered with the same Canvas component in the shared tab. Inspection does not switch tabs, pan, zoom, change selection, apply drafts, or read a secondary tab's state.
-
-A connected browser is required. Edits flush first, and ownership, selection, or draft revision changes reject stale results. Rendering failures are explicit. Measurements supplement visual review; they cannot establish architectural quality or overall readability. Images omit editing controls and empty placeholders.
-
-See the [agent tool reference](../skills/flowcanvas/references/tools.md) for schemas and editing examples.
-
-## Troubleshooting
-
-| Symptom | Action |
-| --- | --- |
-| Codex cannot find tools | Keep FlowCanvas running, run `npm run codex:check`, and restart Codex if the connection was missing or failed when the chat started. |
-| Service unreachable | Start `npm run up` and keep its terminal open. Confirm the endpoint and port. |
-| Existing service reported | Stop it with Ctrl+C in its owning terminal before launching again. |
-| Credential authentication fails | Stop the service and run `npm run up` again. Check the credential directory and restart Codex after connection changes. Keep `mcp-token` private. |
-| No active workspace | Open FlowCanvas and share the intended tab. Sharing selects context; it does not install tools. |
-| New tools missing after an update | Rebuild and restart FlowCanvas, reload its browser page, and restart Codex. |
-
-See [configuration](operations.md#configuration) for custom ports and directories.
+For shared context, inspection, and troubleshooting, see the [agent guide](agents.md#shared-context).

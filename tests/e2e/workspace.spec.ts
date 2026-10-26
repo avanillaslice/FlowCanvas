@@ -75,11 +75,11 @@ async function initialize(
   await page.goto("/");
   await expect(
     page.getByRole("button", {
-      name: /Shared with Codex|Share this tab with Codex/,
+      name: /Shared with agents|Share this tab with agents/,
     }),
   ).toBeVisible();
   const share = page.getByRole("button", {
-    name: "Share this tab with Codex",
+    name: "Share this tab with agents",
     exact: true,
   });
   if (await share.count()) await share.click();
@@ -241,7 +241,7 @@ test("Arrange respects bottom calls; routes avoid blocks and labels stay clear; 
     expect(pins.length).toBeGreaterThan(0);
     await page.reload();
     await expect(pane.locator(".react-flow__node")).toHaveCount(nodes.length);
-    await expect(page.getByRole("button", { name: "Shared with Codex", exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Shared with agents", exact: true })).toBeVisible();
     const restored = await readWorkspaceLayout(mcp, page);
     expect(restored.selectedDraft.graph.edges.find((e: any) => e.id === "route").waypoints).toEqual(pins);
     await page.getByRole("button", { name: "Undo", exact: true }).click();
@@ -1379,7 +1379,7 @@ test("draft edits apply as immutable versions, remain open, and restore after re
   ).toBeVisible();
   await page.reload();
   await expect(
-    page.getByRole("button", { name: "Shared with Codex", exact: true }),
+    page.getByRole("button", { name: "Shared with agents", exact: true }),
   ).toBeVisible();
   await expect(
     page.getByRole("tab", { name: "v3 - Older alternative", exact: true }),
@@ -1416,7 +1416,7 @@ test("real browser selections and pending text are read through MCP; a second ta
     await second.goto("/");
     await expect(
       second.getByRole("button", {
-        name: "Share this tab with Codex",
+        name: "Share this tab with agents",
         exact: true,
       }),
     ).toBeVisible();
@@ -1449,12 +1449,12 @@ test("real browser selections and pending text are read through MCP; a second ta
       .toBe("no_active_workspace");
     await expect(
       second.getByRole("button", {
-        name: "Share this tab with Codex",
+        name: "Share this tab with agents",
         exact: true,
       }),
     ).toBeVisible();
     await second
-      .getByRole("button", { name: "Share this tab with Codex", exact: true })
+      .getByRole("button", { name: "Share this tab with agents", exact: true })
       .click();
     const newShared = await call(mcp, "read_workspace");
     expect(newShared.concept.name).toBe("SECONDARY_SELECTION");
@@ -2049,12 +2049,12 @@ test("a browser popup with copied session storage cannot inherit the shared tab"
   const popup = await popupEvent;
   await expect(
     popup.getByRole("button", {
-      name: "Share this tab with Codex",
+      name: "Share this tab with agents",
       exact: true,
     }),
   ).toBeVisible();
   await expect(
-    page.getByRole("button", { name: "Shared with Codex", exact: true }),
+    page.getByRole("button", { name: "Shared with agents", exact: true }),
   ).toBeVisible();
 });
 

@@ -52,22 +52,6 @@ export function connection() {
     token: readToken(credentials),
   };
 }
-export function credentialHelperCommand(tokenFile: string) {
-  const paths = [
-    process.execPath,
-    join(projectRoot, "scripts", "mcp-headers.mjs"),
-    tokenFile,
-  ];
-  return paths
-    .map((path) => {
-      if (/["\r\n]/.test(path))
-        throw new Error(
-          "The credential helper path contains an unsupported quote or line break.",
-        );
-      return `"${path.replaceAll("\\", "/")}"`;
-    })
-    .join(" ");
-}
 export async function acceptsCredential(url: string, token: string) {
   const response = await fetch(url, {
     method: "GET",

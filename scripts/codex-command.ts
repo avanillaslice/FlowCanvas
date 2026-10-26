@@ -56,7 +56,7 @@ export function resolveCodexExecutable(
   }
 
   throw new Error(
-    "Could not find the Codex executable on PATH or in the Codex desktop installation. Set FLOWCANVAS_CODEX_PATH to the full path of the native Codex executable, then run npm run up again.",
+    "Could not find the Codex executable on PATH or in the Codex desktop installation. Set FLOWCANVAS_CODEX_PATH to the full path of the native Codex executable, then run npm run codex:check again.",
   );
 }
 

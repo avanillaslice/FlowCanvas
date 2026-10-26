@@ -1,24 +1,25 @@
 # Local connection
 
-Run commands from the FlowCanvas repository root, the directory containing `package.json`. The default browser URL is `http://127.0.0.1:4317`, and the Streamable HTTP MCP endpoint is `http://127.0.0.1:4317/mcp`. The configured server name is `flowcanvas`. Directory and port overrides can change these defaults. This is a direct local MCP service, not a marketplace plugin.
+FlowCanvas is a local Streamable HTTP MCP service. The default endpoint is `http://127.0.0.1:4317/mcp`, usually named `flowcanvas` in the client. The browser uses `http://127.0.0.1:4317`. Port and directory overrides can change these defaults.
 
-The user runs `npm run up` from the repository root and keeps that terminal open. Ctrl+C closes the service and database. Do not start a detached copy or stop the user's service as a diagnostic action. A second launcher cannot take over a service already running in another terminal.
+The user starts `npm run up` from the checkout and keeps that terminal open. Ctrl+C closes the service and database. Do not start a detached copy or stop the user's service as a diagnostic action. Startup checks MCP access but does not install skills or configure an agent.
 
-Codex's connection is configured in `%USERPROFILE%\.codex\config.toml` (or `$CODEX_HOME\config.toml` when set). The `[mcp_servers.flowcanvas]` entry points at the local endpoint and uses `http_headers_helper` to invoke the installation's `scripts/mcp-headers.mjs`. This helper reads the ignored `.local/mcp-token` file in the installation. Do not print, paste, or request the credential. The skill does not establish authentication or install the MCP tools by itself.
+## Client requirements
 
-When tools are unavailable, inspect their current availability first. If needed, run these diagnostics from the installation directory:
+The client must reach this machine's loopback address, support Streamable HTTP, and send `Authorization: Bearer <token>`. Stdio-only clients and cloud clients without local connectivity cannot connect directly. FlowCanvas does not provide OAuth login.
 
-```powershell
-npm run mcp:check
-npm run codex:check
-```
+The default credential file is the checkout's ignored `.local/mcp-token`. Startup prints its path, never its contents. `FLOWCANVAS_DATA_DIR` defaults credentials to that directory; `FLOWCANVAS_CREDENTIAL_DIR` overrides credentials explicitly. Keep token contents out of chat and diagnostic output. The skill does not establish authentication or install tools.
 
-The first checks the HTTP MCP handshake and a structured call. The second uses a fresh installed Codex process to verify tool discovery against its actual configuration; it does not create a chat or run a model. Neither result proves that the existing conversation has refreshed its tool catalog.
+Connection and skill setup are manual and client-specific. Existing Codex connections may use `scripts/mcp-headers.mjs` as `http_headers_helper`; retain a working configuration. Do not assume every client supports this helper or Codex's configuration format.
 
-- If the service is unreachable, ask the user to run `npm run up` from the repository root in their own terminal.
-- If authentication fails, check the configured helper's credential path against the running service's `/api/health` `credentialDirectory`. Never reveal credential contents. By default, the service and helper use the checkout's `.local/mcp-token` file.
-- After connection changes or a failed startup in Codex, keep FlowCanvas running and ask the user to restart Codex so it can load the connection. Routine FlowCanvas restarts preserve its credential and should not require repeatedly reconfiguring Codex.
-- If both probes pass but this chat still lacks the tools, report that the current chat's connection needs reloading. Do not search unrelated plugins or browser inventories, and do not ask for a tab URL as a substitute.
-- Once tools are available, `read_workspace` determines the shared context. “Shared with Codex” in the UI means that this tab supplies that context; it does not certify a connected agent.
+## Diagnose missing tools
 
-Setup can be rerun with `npm run mcp:setup`, normally handled by `npm run up`. The database defaults to `%LOCALAPPDATA%\FlowCanvas\flowcanvas.db` on Windows, or `~/.local/share/FlowCanvas/flowcanvas.db` when `LOCALAPPDATA` is unset. `FLOWCANVAS_DATA_DIR` overrides data storage and defaults credentials to that directory; `FLOWCANVAS_CREDENTIAL_DIR` overrides credentials explicitly. Changing only the credential location does not relocate saved Concepts.
+Check available tool names first. From the checkout, `npm run mcp:check` verifies the HTTP handshake and a JSON-text tool call through a generic SDK client. It does not run a model. For Codex only, `npm run codex:check` can additionally verify discovery through its installed configuration. Neither result proves that the current chat has refreshed its tool catalog.
+
+- If the service is unreachable, ask the user to start FlowCanvas in their terminal. Check the endpoint and whether the client can access local services.
+- If authentication fails, compare the client's token source with the credential path reported by startup or the local `/api/health` response. Do not reveal the token.
+- If checks pass but the chat has no tools, reload the client's MCP connection or restart it. Do not substitute plugin searches, browser inventories, or a requested tab URL.
+- If tools are present but there is no active workspace, open FlowCanvas and share the intended tab. **Shared with agents** identifies context, not a continuously connected agent.
+- If the client cannot consume image results, use `inspect_diagram` with `includeImage: false`; report that visual verification remains incomplete.
+
+The database defaults to `%LOCALAPPDATA%\FlowCanvas\flowcanvas.db` on Windows, or `~/.local/share/FlowCanvas/flowcanvas.db` when LOCALAPPDATA is unset. Changing only the credential location does not move saved Concepts.
