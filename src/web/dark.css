@@ -1,0 +1,442 @@
+/* Forest. Keep colour roles here so the existing light appearance stays available. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  color: #e5eee7;
+  background: #141b18;
+  --surface-canvas: #141b18;
+  --surface-panel: #1c2621;
+  --surface-raised: #25322b;
+  --surface-hover: #304237;
+  --surface-active: #2c4435;
+  --text: #e5eee7;
+  --muted: #a5b6aa;
+  --block-text: #b5c3b9;
+  --green: #9bc7a6;
+  --on-accent: #14251a;
+  --accent-hover: #b1d7ba;
+  --line: #3d5145;
+  --canvas-dots: #304238;
+  --edge-flow: #7f9987;
+  --edge-flow-selected: #b8d8c1;
+  --edge-fetch: #8ecfc1;
+  --edge-fetch-selected: #b3e5da;
+  --edge-subagent: #96bce0;
+  --edge-subagent-selected: #c1daf2;
+  --process-accent: #a8c69a;
+  --process-fill: #2b3828;
+  --agent-accent: #c0ade0;
+  --agent-fill: #322d40;
+  --subagent-accent: #96bce0;
+  --subagent-fill: #263544;
+  --interface-accent: #8ecfc1;
+  --interface-fill: #233c35;
+  --decision-accent: #ddc084;
+  --decision-fill: #3e3526;
+  --store-accent: #d6aa94;
+  --store-fill: #3d302a;
+  --danger: #efad9c;
+  --danger-fill: #432d29;
+  --on-danger: #2b1712;
+  --shadow: #00000030;
+  --xy-background-color: transparent;
+  --xy-edge-stroke: var(--edge-flow);
+  --xy-edge-stroke-selected: var(--edge-flow-selected);
+  --xy-connectionline-stroke: var(--green);
+  --xy-resize-background-color: var(--green);
+  --xy-selection-background-color: #9bc7a61a;
+  --xy-selection-border: 1px solid var(--green);
+
+  button:focus-visible,
+  a:focus-visible {
+    outline-color: var(--green);
+  }
+
+  input:focus-visible,
+  textarea:focus-visible {
+    box-shadow: 0 0 0 2px #9bc7a655;
+  }
+
+  .sidebar,
+  .workspace-header,
+  .pane-header,
+  .pane-footer,
+  .block-palette,
+  .viewport-controls,
+  .selection-controls,
+  .modal,
+  .reopen-drafts {
+    background: var(--surface-panel);
+    border-color: var(--line);
+  }
+
+  .panes,
+  .canvas,
+  .draft-pane .canvas {
+    background: var(--surface-canvas);
+    border-color: var(--line);
+  }
+
+  .brand-icon,
+  .button.primary,
+  .apply-button {
+    background: var(--green);
+    color: var(--on-accent);
+    border-color: var(--green);
+  }
+
+  .button.primary:hover,
+  .apply-button:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+  }
+
+  .brand small,
+  .sidebar-heading,
+  .icon-button,
+  .project-toggle,
+  .concept-row,
+  .new-concept,
+  .add-project,
+  .sidebar-footer,
+  .sidebar-footer small,
+  .sidebar-empty,
+  .breadcrumb,
+  .breadcrumb-divider,
+  .share-badge,
+  .eyebrow,
+  .button.subtle,
+  .pane-icon,
+  .readonly-badge,
+  .version-select svg,
+  .draft-tab,
+  .draft-tab-close,
+  .new-tab,
+  .viewport-controls button,
+  .canvas-count,
+  .canvas-empty p,
+  .empty-hint,
+  .pane-footer,
+  .selection-controls button,
+  .reopen-drafts > span,
+  .welcome > p,
+  .welcome-hint,
+  .welcome-bottom,
+  .modal label,
+  .draft-delete-modal p,
+  .guide p,
+  .shortcut-list,
+  .shortcut-list kbd {
+    color: var(--muted);
+  }
+
+  .icon-button:hover,
+  .concept-row:hover,
+  .button.subtle:hover,
+  .viewport-controls button:hover,
+  .block-fit-height:hover {
+    background: var(--surface-hover);
+    color: var(--text);
+  }
+
+  .concept-row.active,
+  .share-badge.shared {
+    background: var(--surface-active);
+    color: var(--green);
+    border-color: var(--line);
+  }
+
+  .concept-list,
+  .share-badge,
+  .readonly-badge,
+  .draft-tab,
+  .draft-tabbar,
+  .draft-tools,
+  .version-select,
+  .reopen-drafts > button,
+  .modal label input,
+  .shortcut-list kbd {
+    border-color: var(--line);
+  }
+
+  .active-dot,
+  .local-dot,
+  .draft-tab-dot {
+    background: var(--green);
+  }
+
+  .new-concept:hover,
+  .version-select select,
+  .empty-mark,
+  .canvas-empty h3,
+  .modal-symbol,
+  .loading-screen {
+    color: var(--green);
+  }
+
+  .version-select,
+  .reopen-drafts > button,
+  .empty-mark,
+  .modal-symbol,
+  .shortcut-list kbd,
+  .block-fit-height {
+    background: var(--surface-raised);
+    border-color: var(--line);
+  }
+
+  .version-select option,
+  .modal label input,
+  .edge-label input {
+    background: var(--surface-canvas);
+    color: var(--text);
+  }
+
+  .version-select select:focus-visible {
+    outline: 2px solid var(--green);
+  }
+
+  .pane-layout-control {
+    background: var(--surface-canvas);
+    color: var(--muted);
+  }
+
+  .pane-layout-control button:hover {
+    background: var(--surface-hover);
+  }
+
+  .pane-layout-control button[aria-pressed="true"] {
+    background: var(--surface-active);
+    color: var(--green);
+  }
+
+  .split-divider,
+  .draft-tabbar {
+    background: var(--surface-canvas);
+    border-color: var(--line);
+  }
+
+  .split-divider span,
+  .tool-divider,
+  .viewport-controls > span {
+    background: var(--line);
+  }
+
+  .draft-tab.selected {
+    background: var(--surface-panel);
+    border-top-color: var(--green);
+    color: var(--green);
+  }
+
+  .draft-tab-close:hover {
+    background: var(--danger-fill);
+    color: var(--danger);
+  }
+
+  /* A shared neutral border lets the soft fill carry type identity. */
+  .block {
+    --type: var(--process-accent);
+    background: var(--process-fill);
+    border-color: var(--line);
+    box-shadow: 0 3px 8px var(--shadow);
+  }
+
+  .block-agent {
+    --type: var(--agent-accent);
+    background: var(--agent-fill);
+  }
+
+  .block-subagent {
+    --type: var(--subagent-accent);
+    background: var(--subagent-fill);
+  }
+
+  .block-interface {
+    --type: var(--interface-accent);
+    background: var(--interface-fill);
+  }
+
+  .block-decision {
+    --type: var(--decision-accent);
+    background: var(--decision-fill);
+  }
+
+  .block-store {
+    --type: var(--store-accent);
+    background: var(--store-fill);
+  }
+
+  .block.is-selected {
+    border-color: var(--green);
+    box-shadow: 0 0 0 2px var(--surface-canvas), 0 0 0 4px var(--green);
+  }
+
+  .block-title,
+  .block-title:focus,
+  .welcome h1,
+  .modal h2,
+  .draft-delete-modal strong {
+    color: var(--text);
+  }
+
+  .block-title:focus,
+  .block-text:focus {
+    box-shadow: none;
+  }
+
+  .block-text,
+  .block-text:placeholder-shown,
+  .block-text::placeholder {
+    color: var(--block-text);
+  }
+
+  .block-fit-height,
+  .reopen-drafts > button {
+    color: var(--green);
+  }
+
+  .react-flow__handle {
+    background: var(--surface-canvas);
+    border-color: var(--muted);
+  }
+
+  .react-flow__handle:hover {
+    background: var(--green);
+  }
+
+  .react-flow__handle.fetch-handle {
+    background: var(--interface-fill);
+    border-color: var(--edge-fetch);
+  }
+
+  .react-flow__handle.fetch-handle:hover {
+    background: var(--edge-fetch);
+  }
+
+  .react-flow__handle.subagent-handle {
+    background: var(--subagent-fill);
+    border-color: var(--edge-subagent);
+  }
+
+  .react-flow__handle.subagent-handle:hover,
+  .react-flow__handle.subagent-handle.occupied {
+    background: var(--edge-subagent);
+  }
+
+  .react-flow__resize-control.handle {
+    border-color: var(--surface-canvas);
+  }
+
+  .edge-label button {
+    background: var(--surface-canvas);
+    color: var(--muted);
+  }
+
+  .edge-label button:empty {
+    background: transparent;
+  }
+
+  .edge-label.subagent-label button {
+    background: var(--subagent-fill);
+    color: var(--edge-subagent);
+  }
+
+  .edge-label.fetch-label button {
+    background: var(--interface-fill);
+    color: var(--edge-fetch);
+  }
+
+  .edge-label.selected button {
+    color: var(--text);
+    outline-color: var(--green);
+  }
+
+  .edge-label input,
+  .modal label input:focus {
+    border-color: var(--green);
+  }
+
+  .palette-process { --type: var(--process-accent); --type-fill: var(--process-fill); }
+  .palette-agent { --type: var(--agent-accent); --type-fill: var(--agent-fill); }
+  .palette-subagent { --type: var(--subagent-accent); --type-fill: var(--subagent-fill); }
+  .palette-interface { --type: var(--interface-accent); --type-fill: var(--interface-fill); }
+  .palette-decision { --type: var(--decision-accent); --type-fill: var(--decision-fill); }
+  .palette-store { --type: var(--store-accent); --type-fill: var(--store-fill); }
+
+  .block-palette button {
+    color: var(--type);
+  }
+
+  .block-palette button:hover {
+    color: var(--type);
+    background: var(--type-fill);
+  }
+
+  .historical-banner,
+  .error-banner,
+  .save-error {
+    background: var(--decision-fill);
+    color: var(--decision-accent);
+    border-color: #695936;
+  }
+
+  .art-node {
+    background: var(--interface-fill);
+    color: var(--interface-accent);
+    border-color: var(--line);
+    box-shadow: 0 3px 8px var(--shadow);
+  }
+
+  .art-node.agent {
+    background: var(--agent-fill);
+    color: var(--agent-accent);
+    border-color: var(--line);
+  }
+
+  .art-node:last-child {
+    background: var(--process-fill);
+    color: var(--process-accent);
+  }
+
+  .welcome-art > span {
+    background: var(--edge-flow);
+  }
+
+  .welcome-art > span::after {
+    border-color: var(--edge-flow);
+  }
+
+  .modal-backdrop,
+  .draft-delete-backdrop {
+    background: #070d0a99;
+  }
+
+  .modal {
+    box-shadow: 0 20px 80px #00000066;
+  }
+
+  .delete-symbol {
+    background: var(--danger-fill);
+    color: var(--danger);
+    border-color: #704c41;
+  }
+
+  .button.danger {
+    background: var(--danger);
+    color: var(--on-danger);
+  }
+
+  .button.danger:hover {
+    background: #f6c2b5;
+  }
+
+  .form-error {
+    color: var(--danger);
+  }
+
+  .panes,
+  .button.primary,
+  .block-palette,
+  .viewport-controls,
+  .selection-controls {
+    box-shadow: 0 3px 12px var(--shadow);
+  }
+}

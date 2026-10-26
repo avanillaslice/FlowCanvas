@@ -1,0 +1,207 @@
+{
+  "schemaVersion": 1,
+  "nodes": [
+    {
+      "id": "request",
+      "type": "interface",
+      "label": "request",
+      "text": "",
+      "x": -106.00000000000001,
+      "y": 107,
+      "width": 300,
+      "height": 100
+    },
+    {
+      "id": "context",
+      "type": "process",
+      "label": "context",
+      "text": "",
+      "x": 336,
+      "y": 57,
+      "width": 300,
+      "height": 200
+    },
+    {
+      "id": "preparation",
+      "type": "agent",
+      "label": "preparation",
+      "text": "",
+      "x": 773,
+      "y": 57,
+      "width": 300,
+      "height": 200
+    },
+    {
+      "id": "assembly",
+      "type": "process",
+      "label": "assembly",
+      "text": "",
+      "x": 1204,
+      "y": 58,
+      "width": 300,
+      "height": 200
+    },
+    {
+      "id": "main",
+      "type": "agent",
+      "label": "main",
+      "text": "",
+      "x": 1657,
+      "y": 58,
+      "width": 300,
+      "height": 200
+    },
+    {
+      "id": "search",
+      "type": "process",
+      "label": "search",
+      "text": "",
+      "x": 2130.7557119695607,
+      "y": 275.40246044613554,
+      "width": 300,
+      "height": 200
+    },
+    {
+      "id": "index",
+      "type": "store",
+      "label": "index",
+      "text": "",
+      "x": 2630.4363022918365,
+      "y": 249.4886237098118,
+      "width": 300,
+      "height": 200
+    },
+    {
+      "id": "history",
+      "type": "store",
+      "label": "history",
+      "text": "",
+      "x": 2134.02586507564,
+      "y": -118,
+      "width": 300,
+      "height": 200
+    },
+    {
+      "id": "finalise",
+      "type": "process",
+      "label": "finalise",
+      "text": "",
+      "x": 2047.626713590868,
+      "y": 584.0138254225604,
+      "width": 300,
+      "height": 200
+    },
+    {
+      "id": "chat",
+      "type": "interface",
+      "label": "chat",
+      "text": "",
+      "x": 2427.6699101393306,
+      "y": 837.6699101393302,
+      "width": 300,
+      "height": 200
+    },
+    {
+      "id": "naming",
+      "type": "agent",
+      "label": "naming",
+      "text": "",
+      "x": 2559.993595760341,
+      "y": 585.0809214052528,
+      "width": 300,
+      "height": 200
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "source": "request",
+      "target": "context",
+      "kind": "flow",
+      "sourceHandle": "out",
+      "targetHandle": "in",
+      "label": "Submit request"
+    },
+    {
+      "id": "e2",
+      "source": "context",
+      "target": "preparation",
+      "kind": "flow",
+      "sourceHandle": "out",
+      "targetHandle": "in",
+      "label": "Supply routing context"
+    },
+    {
+      "id": "e3",
+      "source": "preparation",
+      "target": "assembly",
+      "kind": "flow",
+      "sourceHandle": "out",
+      "targetHandle": "in",
+      "label": "Return task decision"
+    },
+    {
+      "id": "e4",
+      "source": "assembly",
+      "target": "main",
+      "kind": "flow",
+      "sourceHandle": "out",
+      "targetHandle": "in",
+      "label": "Send composed request"
+    },
+    {
+      "id": "e5",
+      "source": "main",
+      "target": "search",
+      "kind": "fetch",
+      "sourceHandle": "fetch",
+      "targetHandle": "in",
+      "label": "Query / return passages; repeat as needed"
+    },
+    {
+      "id": "e6",
+      "source": "search",
+      "target": "index",
+      "kind": "fetch",
+      "sourceHandle": "fetch",
+      "targetHandle": "in",
+      "label": "Search selected collection"
+    },
+    {
+      "id": "e7",
+      "source": "main",
+      "target": "history",
+      "kind": "fetch",
+      "sourceHandle": "fetch",
+      "targetHandle": "in",
+      "label": "Continue prior response, when present"
+    },
+    {
+      "id": "e8",
+      "source": "main",
+      "target": "finalise",
+      "kind": "flow",
+      "sourceHandle": "out",
+      "targetHandle": "in",
+      "label": "Return structured answer"
+    },
+    {
+      "id": "e9",
+      "source": "finalise",
+      "target": "chat",
+      "kind": "flow",
+      "sourceHandle": "out",
+      "targetHandle": "in",
+      "label": "Present validated result"
+    },
+    {
+      "id": "e10",
+      "source": "finalise",
+      "target": "naming",
+      "kind": "flow",
+      "sourceHandle": "out",
+      "targetHandle": "in",
+      "label": "Queue naming if eligible"
+    }
+  ]
+}

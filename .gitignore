@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.local/
+README.local.md
+test-results/
+playwright-report/
+*.db
+*.db-shm
+*.db-wal
+*.log

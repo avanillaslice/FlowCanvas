@@ -1,0 +1,4 @@
+interface:
+  display_name: "FlowCanvas"
+  short_description: "Discuss architecture using the shared FlowCanvas"
+  default_prompt: "Use $flowcanvas to read the shared concept, sketch a focused draft with short headings and brief optional notes, then arrange and inspect its rendered appearance."

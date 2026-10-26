@@ -1,0 +1,253 @@
+{
+  "schemaVersion": 1,
+  "nodes": [
+    {
+      "id": "request",
+      "type": "interface",
+      "label": "request",
+      "text": "",
+      "x": 40,
+      "y": 622,
+      "width": 300,
+      "height": 100
+    },
+    {
+      "id": "context",
+      "type": "process",
+      "label": "context",
+      "text": "",
+      "x": 472,
+      "y": 572,
+      "width": 300,
+      "height": 200
+    },
+    {
+      "id": "preparation",
+      "type": "agent",
+      "label": "preparation",
+      "text": "",
+      "x": 948,
+      "y": 572,
+      "width": 300,
+      "height": 200
+    },
+    {
+      "id": "search",
+      "type": "process",
+      "label": "search",
+      "text": "",
+      "x": 1367.5,
+      "y": 1252.5,
+      "width": 300,
+      "height": 200
+    },
+    {
+      "id": "index",
+      "type": "store",
+      "label": "index",
+      "text": "",
+      "x": 1863.5,
+      "y": 1226.5,
+      "width": 300,
+      "height": 200
+    },
+    {
+      "id": "history",
+      "type": "store",
+      "label": "history",
+      "text": "",
+      "x": 1890,
+      "y": 52,
+      "width": 300,
+      "height": 200
+    },
+    {
+      "id": "finalise",
+      "type": "process",
+      "label": "finalise",
+      "text": "",
+      "x": 1330,
+      "y": 572,
+      "width": 300,
+      "height": 200
+    },
+    {
+      "id": "chat",
+      "type": "interface",
+      "label": "chat",
+      "text": "",
+      "x": 1890,
+      "y": 312,
+      "width": 300,
+      "height": 200
+    },
+    {
+      "id": "naming",
+      "type": "agent",
+      "label": "naming",
+      "text": "",
+      "x": 1890,
+      "y": 572,
+      "width": 300,
+      "height": 200
+    },
+    {
+      "id": "research-sub-agent",
+      "type": "subagent",
+      "label": "research-sub-agent",
+      "text": "",
+      "x": 910.5,
+      "y": 1234,
+      "width": 375,
+      "height": 289
+    },
+    {
+      "id": "authoring-sub-agent",
+      "type": "subagent",
+      "label": "authoring-sub-agent",
+      "text": "",
+      "x": 1141.5,
+      "y": 876,
+      "width": 351,
+      "height": 220
+    },
+    {
+      "id": "cmp-review-sub-agent",
+      "type": "subagent",
+      "label": "cmp-review-sub-agent",
+      "text": "",
+      "x": 704.5,
+      "y": 876,
+      "width": 349,
+      "height": 254
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "source": "request",
+      "target": "context",
+      "kind": "flow",
+      "sourceHandle": "out",
+      "targetHandle": "in",
+      "label": "Submit request"
+    },
+    {
+      "id": "e2",
+      "source": "context",
+      "target": "preparation",
+      "kind": "flow",
+      "sourceHandle": "out",
+      "targetHandle": "in",
+      "label": "Supply routing context"
+    },
+    {
+      "id": "e6",
+      "source": "search",
+      "target": "index",
+      "kind": "fetch",
+      "sourceHandle": "fetch",
+      "targetHandle": "in",
+      "label": "Search selected collection"
+    },
+    {
+      "id": "e9",
+      "source": "finalise",
+      "target": "chat",
+      "kind": "flow",
+      "sourceHandle": "out",
+      "targetHandle": "in",
+      "label": "Present validated result"
+    },
+    {
+      "id": "e10",
+      "source": "finalise",
+      "target": "naming",
+      "kind": "flow",
+      "sourceHandle": "out",
+      "targetHandle": "in",
+      "label": "Queue naming if eligible"
+    },
+    {
+      "id": "connection-5",
+      "source": "preparation",
+      "target": "research-sub-agent",
+      "kind": "subagent",
+      "sourceHandle": "subagent",
+      "targetHandle": "in-top",
+      "label": ""
+    },
+    {
+      "id": "connection-6",
+      "source": "preparation",
+      "target": "authoring-sub-agent",
+      "kind": "subagent",
+      "sourceHandle": "subagent-right",
+      "targetHandle": "in-top",
+      "label": ""
+    },
+    {
+      "id": "connection-7",
+      "source": "preparation",
+      "target": "cmp-review-sub-agent",
+      "kind": "subagent",
+      "sourceHandle": "subagent-left",
+      "targetHandle": "in-top",
+      "label": ""
+    },
+    {
+      "id": "connection-8",
+      "source": "preparation",
+      "target": "finalise",
+      "kind": "flow",
+      "sourceHandle": "out",
+      "targetHandle": "in",
+      "label": ""
+    },
+    {
+      "id": "connection-9",
+      "source": "research-sub-agent",
+      "target": "search",
+      "kind": "fetch",
+      "sourceHandle": "fetch",
+      "targetHandle": "in",
+      "label": ""
+    },
+    {
+      "id": "connection-10",
+      "source": "finalise",
+      "target": "history",
+      "kind": "fetch",
+      "sourceHandle": "fetch",
+      "targetHandle": "in",
+      "label": "Save completed turn and result references"
+    },
+    {
+      "id": "connection-11",
+      "source": "authoring-sub-agent",
+      "target": "research-sub-agent",
+      "kind": "subagent",
+      "sourceHandle": "subagent",
+      "targetHandle": "in-top",
+      "label": ""
+    },
+    {
+      "id": "connection-12",
+      "source": "cmp-review-sub-agent",
+      "target": "research-sub-agent",
+      "kind": "subagent",
+      "sourceHandle": "subagent",
+      "targetHandle": "in-top",
+      "label": ""
+    },
+    {
+      "id": "connection-13",
+      "source": "context",
+      "target": "history",
+      "kind": "fetch",
+      "sourceHandle": "fetch",
+      "targetHandle": "in",
+      "label": ""
+    }
+  ]
+}
